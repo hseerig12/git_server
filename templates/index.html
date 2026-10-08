@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{.Title}} - GoGit</title>
+        <link rel="stylesheet" href="/static/style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/">~ / root</a>
+                {{if .RepoName}} /
+                <a href="/{{.RepoName}}">{{.RepoName}}</a>{{end}} {{if
+                .FileContent}} / {{.Title}}{{end}}
+            </div>
+
+            <h1>{{.Title}}</h1>
+
+            <!-- Dashboard List -->
+            {{if .Repos}}
+            <div class="card">
+                {{range .Repos}}
+                <div class="item">📁 <a href="/{{.}}">{{.}}</a></div>
+                {{end}}
+            </div>
+            {{end}}
+
+            <!-- File List for a Repository -->
+            {{if .RepoName}} {{if not .FileContent}}
+            <div class="card">
+                {{if .Files}} {{range .Files}}
+                <div class="item">
+                    📄 <a href="/{{$.RepoName}}/{{.}}">{{.}}</a>
+                </div>
+                {{end}} {{else}}
+                <div class="item" style="color: #94a3b8; font-style: italic">
+                    (Repository is empty or no commits yet)
+                </div>
+                {{end}}
+            </div>
+            {{end}} {{end}}
+
+            <!-- Raw File Viewer -->
+            {{if .FileContent}}
+            <pre><code>{{.FileContent}}</code></pre>
+            {{end}}
+        </div>
+    </body>
+</html>
